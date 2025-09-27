@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('users/create');
     }
 
     /**
@@ -31,7 +32,17 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name"=>"required",
+            "email"=>"required",
+            "password"=>"required",
+        ]);
+        User::create(
+            $request->only('name','email')
+            +
+            ['password'=>Hash::make($request->password)]
+        );
+        return to_route('users.index');
     }
 
     /**

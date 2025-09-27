@@ -1,10 +1,8 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
-import * as React from "react"
+import { usePage } from '@inertiajs/react'
 
 
 
@@ -17,15 +15,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({users}) {
+    const {baseurl} = usePage().props
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Users" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="p-3">
                     <h1 className="text-2xl font-bold mb-4">Users List</h1>
-                    <button className="mb-4 px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    <Link href={baseurl+'/users/create'} className="mb-4 px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                         Create
-                    </button>
+                    </Link>
                     <div className="overflow-x-auto mt-4">
                         <table className="w-full text-sm text-left text-gray-700">
                             <thead className="text-xs uppercase bg-gray-50 text-gray-700">
@@ -38,7 +38,7 @@ export default function Index({users}) {
                             </thead>
                             <tbody>
                             {users.map(({id,name,email})=>
-                                <tr className="odd:bg-white even:bg-gray-50 border-b border-gray-200">
+                                <tr className="odd:bg-white even:bg-gray-50 border-b border-gray-200" key={id}>
                                 <td className="px-6 py-2 font-medium text-gray-900">{id}</td>
                                 <td className="px-6 py-2 text-gray-700">{name}</td>
                                 <td className="px-6 py-2 text-gray-700">{email}</td>

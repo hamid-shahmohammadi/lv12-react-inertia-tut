@@ -1,11 +1,8 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link,router } from '@inertiajs/react';
 
-import { usePage } from '@inertiajs/react'
-
-
-
+import { usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,7 +12,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({users}) {
-    const {baseurl} = usePage().props
+    const {baseurl} = usePage().props;
+    function deletePost(id){
+        if(confirm("Are usure?")){
+            router.delete(baseurl+'/users/'+id)
+        }
+    }
     
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -43,13 +45,14 @@ export default function Index({users}) {
                                 <td className="px-6 py-2 text-gray-700">{name}</td>
                                 <td className="px-6 py-2 text-gray-700">{email}</td>
                                 <td className="px-6 py-2 space-x-1">
-                                    <button className="cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                    <Link href={baseurl+'/users/'+id+'/edit'} className="cursor-pointer px-3 py-2 text-xs font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                         Edit
-                                    </button>
+                                    </Link>
                                     <button className="cursor-pointer px-3 py-2 text-xs font-medium text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300">
                                         Show
                                     </button>
-                                    <button className="cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
+                                    <button onClick={()=>deletePost(id)}
+                                    className="cursor-pointer px-3 py-2 text-xs font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
                                         Delete
                                     </button>
                                 </td>
